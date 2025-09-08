@@ -81,8 +81,8 @@ const TeacherListPage = () => {
       <td>
         <div className="flex items-center gap-2">
           <Link href={`/list/teachers/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
-              <Image src="/view.png" alt="" width={16} height={16} />
+            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky text-[10px] font-medium">
+              View
             </button>
           </Link>
           {role === "admin" && (
