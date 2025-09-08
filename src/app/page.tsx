@@ -12,6 +12,10 @@ const Homepage = () => {
         <div className='flex items-center gap-2'>
           <Link href="/list/teachers" className='px-3 py-2 rounded-md bg-gray-900 text-white text-sm'>View Teachers</Link>
           <Link href="/list/students" className='px-3 py-2 rounded-md bg-gray-100 text-gray-900 text-sm'>View Students</Link>
+          <Link href="/(dashboard)/admin" className='px-3 py-2 rounded-md bg-gray-100 text-gray-900 text-sm'>Admin</Link>
+          <Link href="/(dashboard)/teacher" className='px-3 py-2 rounded-md bg-gray-100 text-gray-900 text-sm'>Teacher</Link>
+          <Link href="/(dashboard)/student" className='px-3 py-2 rounded-md bg-gray-100 text-gray-900 text-sm'>Student</Link>
+          <Link href="/(dashboard)/parent" className='px-3 py-2 rounded-md bg-gray-100 text-gray-900 text-sm'>Parent</Link>
         </div>
       </div>
 
