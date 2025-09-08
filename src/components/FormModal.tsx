@@ -1,8 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
-import { JSX, useState } from "react";
+import { JSX, useMemo, useState } from "react";
 
 // USE LAZY LOADING
 
@@ -16,11 +15,9 @@ const StudentForm = dynamic(() => import("./forms/StudentForm"), {
   loading: () => <h1>Loading...</h1>,
 });
 
-const forms: {
-  [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
-} = {
+const forms: Record<string, (type: "create" | "update", data?: unknown) => JSX.Element> = {
   teacher: (type, data) => <TeacherForm type={type} data={data} />,
-  student: (type, data) => <StudentForm type={type} data={data} />
+  student: (type, data) => <StudentForm type={type} data={data} />,
 };
 
 const FormModal = ({
@@ -43,7 +40,7 @@ const FormModal = ({
     | "event"
     | "announcement";
   type: "create" | "update" | "delete";
-  data?: any;
+  data?: unknown;
   id?: number;
 }) => {
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
@@ -56,6 +53,12 @@ const FormModal = ({
 
   const [open, setOpen] = useState(false);
 
+  const triggerLabel = useMemo(() => {
+    if (type === "create") return "+";
+    if (type === "update") return "✎";
+    return "🗑";
+  }, [type]);
+
   const Form = () => {
     return type === "delete" && id ? (
       <form action="" className="p-4 flex flex-col gap-4">
@@ -67,7 +70,13 @@ const FormModal = ({
         </button>
       </form>
     ) : type === "create" || type === "update" ? (
-      forms[table](type, data)
+      forms[table]
+        ? forms[table](type, data)
+        : (
+          <div className="p-6 text-center text-sm text-gray-600">
+            Form for "{table}" is not available.
+          </div>
+        )
     ) : (
       "Form not found!"
     );
@@ -79,17 +88,17 @@ const FormModal = ({
         className={`${size} flex items-center justify-center rounded-full ${bgColor}`}
         onClick={() => setOpen(true)}
       >
-        <Image src={`/${type}.png`} alt="" width={16} height={16} />
+        <span className="text-xs">{triggerLabel}</span>
       </button>
       {open && (
-        <div className="w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+        <div className="w-screen h-screen fixed left-0 top-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white p-4 rounded-xl relative w-full md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%] shadow-xl">
             <Form />
             <div
-              className="absolute top-4 right-4 cursor-pointer"
+              className="absolute top-3 right-3 cursor-pointer w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm"
               onClick={() => setOpen(false)}
             >
-              <Image src="/close.png" alt="" width={14} height={14} />
+              ×
             </div>
           </div>
         </div>
