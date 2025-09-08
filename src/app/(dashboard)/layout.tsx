@@ -1,28 +1,27 @@
-// app/dashboard/layout.tsx
+// src/app/layout.tsx
 
-import React from 'react';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-type DashboardLayoutProps = {
-  children: React.ReactNode;
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Lama Dev School Management Dashboard",
+  description: "Next.js School Management System",
 };
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Sidebar */}
-      <div style={{ width: '200px', backgroundColor: 'black', padding: '1rem' }}>
-        <h2>Dashboard</h2>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li><a href="/dashboard">Home</a></li>
-          <li><a href="/dashboard/settings">Settings</a></li>
-          <li><a href="/dashboard/profile">Profile</a></li>
-        </ul>
-      </div>
-
-      {/* Main Content */}
-      <div style={{ flex: 1, padding: '1rem' }}>
+    <html lang="en">
+      <head />
+      <body className={inter.className}>
         {children}
-      </div>
-    </div>
+      </body>
+    </html>
   );
 }
