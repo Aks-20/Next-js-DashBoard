@@ -1,22 +1,22 @@
-import './globals.css';
-import {inter} from './ui/fonts';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
+const inter = Inter({ subsets: ["latin"] });
 
+export const metadata: Metadata = {
+  title: "Lama Dev School Management Dashboard",
+  description: "Next.js School Management System",
+};
 
-export const metadata={
-  title:'My Dashboard',
-  description:'A simple dashboard built with Next.js and Tailwind CSS',
-  fonts:[inter.variable],
-}
- 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
