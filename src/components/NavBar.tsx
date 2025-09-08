@@ -1,27 +1,27 @@
-import Image from "next/image"
-
 const Navbar = () => {
   return (
-    <div className='flex items-center justify-between p-4'>
-      {/* SEARCH BAR */}
-      <div className='hidden md:flex items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2'>
-        <Image src="/search.png" alt="" width={14} height={14}/>
+    <div className='flex items-center justify-between p-4 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-gray-100'>
+      <div className='hidden md:flex items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2 bg-white'>
+        <span className='text-gray-500 pl-1'>⌕</span>
         <input type="text" placeholder="Search..." className="w-[200px] p-2 bg-transparent outline-none"/>
       </div>
-      {/* ICONS AND USER */}
-      <div className='flex items-center gap-6 justify-end w-full'>
-        <div className='bg-white rounded-full w-7 h-7 flex items-center justify-center cursor-pointer'>
-          <Image src="/message.png" alt="" width={20} height={20}/>
+      <div className='flex items-center gap-4 justify-end w-full'>
+        <button className='bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer text-gray-600 text-sm hover:bg-gray-100'>
+          ✉
+        </button>
+        <button className='bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer text-gray-600 text-sm hover:bg-gray-100 relative'>
+          🔔
+          <span className='absolute -top-2 -right-2 w-4 h-4 flex items-center justify-center bg-purple-500 text-white rounded-full text-[10px]'>1</span>
+        </button>
+        <div className='flex items-center gap-2'>
+          <div className='flex flex-col'>
+            <span className="text-xs leading-3 font-medium">John Doe</span>
+            <span className="text-[10px] text-gray-500 text-right">Admin</span>
+          </div>
+          <div className="rounded-full w-9 h-9 bg-gradient-to-br from-purple-400 to-blue-400 text-white flex items-center justify-center text-sm font-semibold">
+            JD
+          </div>
         </div>
-        <div className='bg-white rounded-full w-7 h-7 flex items-center justify-center cursor-pointer relative'>
-          <Image src="/announcement.png" alt="" width={20} height={20}/>
-          <div className='absolute -top-3 -right-3 w-5 h-5 flex items-center justify-center bg-purple-500 text-white rounded-full text-xs'>1</div>
-        </div>
-        <div className='flex flex-col'>
-          <span className="text-xs leading-3 font-medium">John Doe</span>
-          <span className="text-[10px] text-gray-500 text-right">Admin</span>
-        </div>
-        <Image src="/avatar.png" alt="" width={36} height={36} className="rounded-full"/>
       </div>
     </div>
   )
