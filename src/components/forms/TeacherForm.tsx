@@ -27,12 +27,14 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>;
 
+export type TeacherFormData = Partial<Inputs> & { id?: number };
+
 const TeacherForm = ({
   type,
   data,
 }: {
   type: "create" | "update";
-  data?: any;
+  data?: TeacherFormData;
 }) => {
   const {
     register,

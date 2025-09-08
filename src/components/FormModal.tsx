@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { JSX, useMemo, useState } from "react";
+import type { TeacherFormData } from "./forms/TeacherForm";
+import type { StudentFormData } from "./forms/StudentForm";
 
 // USE LAZY LOADING
 
@@ -15,7 +17,12 @@ const StudentForm = dynamic(() => import("./forms/StudentForm"), {
   loading: () => <h1>Loading...</h1>,
 });
 
-const forms: Record<string, (type: "create" | "update", data?: unknown) => JSX.Element> = {
+type SupportedTables = "teacher" | "student";
+
+const forms: {
+  teacher: (type: "create" | "update", data?: TeacherFormData) => JSX.Element;
+  student: (type: "create" | "update", data?: StudentFormData) => JSX.Element;
+} = {
   teacher: (type, data) => <TeacherForm type={type} data={data} />,
   student: (type, data) => <StudentForm type={type} data={data} />,
 };
@@ -70,13 +77,15 @@ const FormModal = ({
         </button>
       </form>
     ) : type === "create" || type === "update" ? (
-      forms[table]
-        ? forms[table](type, data)
-        : (
+      (() => {
+        const renderer = (forms as unknown as Record<string, (t: "create" | "update", d?: unknown) => JSX.Element>)[table as SupportedTables];
+        if (renderer) return renderer(type, data);
+        return (
           <div className="p-6 text-center text-sm text-gray-600">
-            Form for "{table}" is not available.
+            Form for {table} is not available.
           </div>
-        )
+        );
+      })()
     ) : (
       "Form not found!"
     );
