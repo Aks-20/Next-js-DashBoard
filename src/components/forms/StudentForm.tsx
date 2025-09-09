@@ -20,12 +20,21 @@ const schema = z.object({
   phone: z.string().min(1, { message: "Phone is required!" }),
   address: z.string().min(1, { message: "Address is required!" }),
   bloodType: z.string().min(1, { message: "Blood Type is required!" }),
-  birthday: z.date({ message: "Birthday is required!" }),
+  birthday: z.coerce.date({ message: "Birthday is required!" }),
   sex: z.enum(["male", "female"], { message: "Sex is required!" }),
-  img: z.instanceof(File, { message: "Image is required" }),
+  img: z
+    .any()
+    .refine(
+      (val) => {
+        if (val instanceof FileList) return val.length > 0;
+        if (val instanceof File) return true;
+        return false;
+      },
+      { message: "Image is required" }
+    ),
 });
 
-type Inputs = z.infer<typeof schema>;
+type Inputs = z.input<typeof schema>;
 
 export type StudentFormData = Partial<Inputs> & { id?: number };
 
@@ -120,7 +129,7 @@ const StudentForm = ({
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday}
+          defaultValue={data?.birthday ? new Date(data.birthday as any).toISOString().split("T")[0] : undefined}
           register={register}
           error={errors.birthday}
           type="date"

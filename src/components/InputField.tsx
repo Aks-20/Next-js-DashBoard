@@ -1,4 +1,4 @@
-import { FieldError, FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { FieldError, FieldErrorsImpl, FieldValues, Merge, Path, UseFormRegister } from "react-hook-form";
 
 type InputFieldProps<TFieldValues extends FieldValues> = {
   label: string;
@@ -6,7 +6,7 @@ type InputFieldProps<TFieldValues extends FieldValues> = {
   register: UseFormRegister<TFieldValues>;
   name: Path<TFieldValues>;
   defaultValue?: string;
-  error?: FieldError;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
