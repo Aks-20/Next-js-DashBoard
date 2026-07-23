@@ -1,11 +1,11 @@
-const Table = ({
+const Table = <T extends object>({
   columns,
   renderRow,
   data,
 }: {
   columns: { header: string; accessor: string; className?: string }[];
-  renderRow: (item: any) => React.ReactNode;
-  data: any[];
+  renderRow: (item: T) => React.ReactNode;
+  data: T[];
 }) => {
   return (
     <table className="w-full mt-4">

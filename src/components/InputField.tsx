@@ -6,7 +6,7 @@ type InputFieldProps<TFieldValues extends FieldValues> = {
   register: UseFormRegister<TFieldValues>;
   name: Path<TFieldValues>;
   defaultValue?: string;
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<Record<string, unknown>>>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 

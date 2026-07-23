@@ -1,6 +1,9 @@
-import { role } from "@/lib/data";
+"use client";
+
+import { useRole } from "@/context/RoleContext";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
@@ -8,8 +11,8 @@ const menuItems = [
     items: [
       {
         icon: "/home.png",
-        label: "Home",
-        href: "/",
+        label: "Dashboard",
+        href: "/admin",
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
@@ -110,7 +113,7 @@ const menuItems = [
       {
         icon: "/logout.png",
         label: "Logout",
-        href: "/logout",
+        href: "/sign-in",
         visible: ["admin", "teacher", "student", "parent"],
       },
     ],
@@ -118,26 +121,41 @@ const menuItems = [
 ];
 
 const Menu = () => {
+  const { role } = useRole();
+  const pathname = usePathname();
+
   return (
     <div className="mt-4 text-sm">
       {menuItems.map((i) => (
         <div className="flex flex-col gap-2" key={i.title}>
-          <span className="hidden lg:block text-gray-400 font-light my-4">
+          <span className="hidden lg:block text-gray-400 font-semibold my-2 text-xs uppercase tracking-wider">
             {i.title}
           </span>
           {i.items.map((item) => {
+            let itemHref = item.href;
+            if (item.label === "Dashboard") {
+              itemHref = `/${role}`;
+            }
+
             if (item.visible.includes(role)) {
+              const isActive = pathname === itemHref;
               return (
                 <Link
-                  href={item.href}
+                  href={itemHref}
                   key={item.label}
-                  className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight"
+                  prefetch={true}
+                  className={`flex items-center justify-center lg:justify-start gap-4 py-2 md:px-3 rounded-lg transition-colors btn-interactive ${
+                    isActive
+                      ? "bg-indigo-600 text-white font-medium shadow-sm"
+                      : "text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"
+                  }`}
                 >
-                  <Image src={item.icon} alt="" width={20} height={20} />
+                  <Image src={item.icon} alt="" width={20} height={20} className={isActive ? "brightness-200" : ""} />
                   <span className="hidden lg:block">{item.label}</span>
                 </Link>
               );
             }
+            return null;
           })}
         </div>
       ))}

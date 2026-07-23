@@ -20,12 +20,23 @@ const schema = z.object({
   phone: z.string().min(1, { message: "Phone is required!" }),
   address: z.string().min(1, { message: "Address is required!" }),
   bloodType: z.string().min(1, { message: "Blood Type is required!" }),
-  birthday: z.date({ message: "Birthday is required!" }),
+  birthday: z.coerce.date({ message: "Birthday is required!" }),
   sex: z.enum(["male", "female"], { message: "Sex is required!" }),
-  img: z.instanceof(File, { message: "Image is required" }),
+  img: z
+    .any()
+    .optional()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        if (val instanceof FileList) return val.length > 0;
+        if (val instanceof File) return true;
+        return true;
+      },
+      { message: "Image is required" }
+    ),
 });
 
-type Inputs = z.infer<typeof schema>;
+type Inputs = z.input<typeof schema>;
 
 export type TeacherFormData = Partial<Inputs> & { id?: number };
 
@@ -44,14 +55,16 @@ const TeacherForm = ({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit((formData) => {
+    console.log("Teacher form submitted:", formData);
   });
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">Create a new teacher</h1>
-      <span className="text-xs text-gray-400 font-medium">
+    <form className="flex flex-col gap-6 p-2" onSubmit={onSubmit}>
+      <h1 className="text-xl font-bold text-gray-800">
+        {type === "create" ? "Create a new teacher" : "Update teacher details"}
+      </h1>
+      <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
         Authentication Information
       </span>
       <div className="flex justify-between flex-wrap gap-4">
@@ -78,7 +91,7 @@ const TeacherForm = ({
           error={errors?.password}
         />
       </div>
-      <span className="text-xs text-gray-400 font-medium">
+      <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
         Personal Information
       </span>
       <div className="flex justify-between flex-wrap gap-4">
@@ -120,15 +133,19 @@ const TeacherForm = ({
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday}
+          defaultValue={
+            data?.birthday
+              ? new Date(data.birthday as string | Date).toISOString().split("T")[0]
+              : undefined
+          }
           register={register}
           error={errors.birthday}
           type="date"
         />
         <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">Sex</label>
+          <label className="text-xs text-gray-500 font-medium">Sex</label>
           <select
-            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full outline-none focus:ring-indigo-500"
             {...register("sex")}
             defaultValue={data?.sex}
           >
@@ -143,10 +160,10 @@ const TeacherForm = ({
         </div>
         <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
           <label
-            className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+            className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer font-medium"
             htmlFor="img"
           >
-            <Image src="/upload.png" alt="" width={28} height={28} />
+            <Image src="/upload.png" alt="" width={24} height={24} />
             <span>Upload a photo</span>
           </label>
           <input type="file" id="img" {...register("img")} className="hidden" />
@@ -157,8 +174,8 @@ const TeacherForm = ({
           )}
         </div>
       </div>
-      <button className="bg-blue-400 text-white p-2 rounded-md">
-        {type === "create" ? "Create" : "Update"}
+      <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium p-2.5 rounded-lg transition-colors mt-2">
+        {type === "create" ? "Create Teacher" : "Update Teacher"}
       </button>
     </form>
   );
