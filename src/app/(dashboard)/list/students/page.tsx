@@ -91,10 +91,11 @@ const StudentListPage = () => {
       <td className="hidden md:table-cell text-gray-600">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
-          <Link href={`/list/students/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-[10px] font-bold transition-colors">
-              View
-            </button>
+          <Link
+            href={`/list/students/${item.id}`}
+            className="w-7 h-7 inline-flex items-center justify-center rounded-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-[10px] font-bold transition-colors"
+          >
+            View
           </Link>
           {role === "admin" && (
             <FormModal table="student" type="delete" id={item.id} />
