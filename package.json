@@ -42,5 +42,13 @@
     "prisma": "^6.19.0",
     "tailwindcss": "^4",
     "typescript": "^5.9.2"
-  }
+  },
+  "trustedDependencies": [
+    "@prisma/client",
+    "@prisma/engines",
+    "@tailwindcss/oxide",
+    "prisma",
+    "sharp",
+    "unrs-resolver"
+  ]
 }
