@@ -10,14 +10,10 @@ import {
   MessageSquare,
   Shield,
   ArrowRight,
-  Star,
-  CheckCircle,
   CheckCircle2,
   Sparkles,
   ChevronDown,
-  ChevronRight,
   Play,
-  LayoutDashboard,
   UserCheck,
   BookOpen,
   TrendingUp,
@@ -135,7 +131,7 @@ export default function SchoolManagementLanding() {
 
           <div className="flex items-center space-x-3">
             <Link
-              href="/admin"
+              href="/sign-in"
               className="text-xs font-semibold px-3 py-2 rounded-lg text-slate-700 hover:text-indigo-600 hover:bg-slate-100 transition-all btn-interactive"
             >
               Sign In

@@ -18,7 +18,7 @@ async function fetchWithTimeoutAndRetry(input: RequestInfo, init?: RequestInit, 
     return res;
   } catch (err) {
     clearTimeout(id);
-    if (retries > 0 && (err as any)?.name !== "AbortError") {
+    if (retries > 0 && err instanceof Error && err.name !== "AbortError") {
       return fetchWithTimeoutAndRetry(input, init, timeout, retries - 1);
     }
     throw err;

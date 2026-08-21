@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+// CSS is processed by Next.js; TypeScript has no module declaration for this side-effect import.
+// @ts-expect-error -- handled by Next.js CSS support
+import "./globals.css";
 
 
 const inter = Inter({ subsets: ["latin"] });

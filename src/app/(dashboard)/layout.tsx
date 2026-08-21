@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Menu from "@/components/Menu";
+import MobileMenu from "@/components/MobileMenu";
 import Navbar from "@/components/NavBar";
 import { RoleProvider } from "@/context/RoleContext";
 
@@ -30,6 +31,7 @@ export default function DashboardLayout({
         </aside>
         {/* RIGHT MAIN CONTENT */}
         <main className="flex-1 min-w-0 flex flex-col">
+          <MobileMenu />
           <Navbar />
           <div className="p-3 md:p-4 lg:p-6 flex-1">
             {children}

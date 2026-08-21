@@ -26,6 +26,8 @@ type TableType =
   | "event"
   | "announcement";
 
+type FormData = Record<string, string | number | string[] | undefined>;
+
 const FormModal = ({
   table,
   type,
@@ -34,7 +36,7 @@ const FormModal = ({
 }: {
   table: TableType;
   type: "create" | "update" | "delete";
-  data?: Record<string, any>;
+  data?: FormData;
   id?: number;
 }) => {
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
