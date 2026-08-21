@@ -6,10 +6,15 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:generate": "prisma generate",
+    "db:validate": "prisma validate",
+    "db:migrate": "prisma migrate dev --name init",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
+    "@prisma/client": "^6.19.0",
     "clsx": "^2.1.1",
     "daisyui": "^5.1.7",
     "flowbite": "^2.3.0",
@@ -34,6 +39,7 @@
     "@types/react-dom": "^19.1.9",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
+    "prisma": "^6.19.0",
     "tailwindcss": "^4",
     "typescript": "^5.9.2"
   }

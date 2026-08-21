@@ -29,6 +29,26 @@
 | **Data Viz & Charts** | [Recharts](https://recharts.org/) & [React Big Calendar](https://github.com/jquense/react-big-calendar) |
 | **Icons** | [Lucide React](https://lucide.dev/) |
 
+## PostgreSQL Setup
+
+1. Start PostgreSQL and open pgAdmin. Create a database named `edumanage` on port `5432`.
+2. Open the local `.env` file and replace `YOUR_POSTGRES_PASSWORD` with the password created during PostgreSQL installation:
+
+```env
+DATABASE_URL="postgresql://postgres:YOUR_POSTGRES_PASSWORD@localhost:5432/edumanage?schema=public"
+```
+
+3. Install dependencies and create the first migration:
+
+```bash
+npm install
+npm run db:validate
+npm run db:migrate
+npm run dev
+```
+
+Useful database commands are `npm run db:generate` for Prisma Client generation and `npm run db:studio` to open Prisma Studio.
+
 ---
 
 ## 🏗️ Next.js 15 App Router & Layout Architecture
